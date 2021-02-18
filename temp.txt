@@ -1,0 +1,61 @@
+
+int Matrix::deteminant()
+{
+    Matrix Ab(*this);
+    int rows = Ab.Number_of_rows;
+    int cols = Ab.Number_of_cols;
+    int Acols = cols - 1;
+    
+    int i = 0; // row tracker
+    int j = 0; // column tracker
+    int sign=1;
+    // iterate through the rows
+    while (i < rows)
+    {
+        // find a pivot for the row
+        bool pivot_found = false;
+        while (j < Acols && !pivot_found)
+        {
+            if (Ab(i, j) != 0) { // pivot not equal to 0
+                pivot_found = true;
+            } else { // check for a possible swap
+                int max_row = i;
+                double max_val = 0;
+                for (int k = i + 1; k < rows; ++k)
+                {
+                    if(Ab(k,j)!=0){
+                        max_row=k;
+                        max_val=Ab(k,j)>0?Ab(k,j):-1*Ab(k,j);
+                        break;
+                    }
+                }
+                if (max_row != i) {
+                    Ab.swapRows(max_row, i);
+                    sign=-1*sign;
+                    pivot_found = true;
+                } else {
+                    j++;
+                }
+            }
+        }
+
+        // perform elimination as normal if pivot was found
+        if (pivot_found)
+        {
+            for (int t = i + 1; t < rows; ++t) {
+                for (int s = j + 1; s < cols; ++s) {
+                    Ab(t, s) = Ab(t, s) - Ab(i, s) * (Ab(t, j) / Ab(i, j));
+                    // in case of error in calculation of floating numbers forcing the values to 0.
+                    if (Ab(t, s) < EPS && Ab(t, s) > -1*EPS)
+                        Ab(t, s) = 0;
+                }
+                Ab(t, j) = 0;
+            }
+        }
+        i++;
+        j++;
+    }
+    for(int i=0;i<)
+ //   return Ab;
+ return 0;
+}
